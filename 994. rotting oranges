@@ -1,0 +1,37 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        Queue<int[]> q=new LinkedList<>();
+    int r=grid.length;
+    int c=grid[0].length;
+    int orng=0;
+    for(int row=0;row<r;row++){
+        for(int col=0;col<c;col++){
+            if(grid[row][col]==2){
+                q.add(new int[]{row,col,0});
+            }
+            if(grid[row][col]==1){
+                orng++;
+            }
+        }
+    }
+    int ans=0;
+    int[] diff={0,1,0,-1,0};
+    while(!q.isEmpty()){
+int[] cell=q.poll();
+int row=cell[0],col=cell[1],cmin=cell[2];
+ans=cmin;
+for(int i=0;i<4;i++){
+    int ar=row+diff[i],ac=col+diff[i+1];
+    if(ar>=0 && ar<r &&ac >=0 && ac<c && grid[ar][ac]==1){
+        grid[ar][ac]=2;
+        orng--;
+        q.add(new int[]{ar,ac,cmin+1});
+    }
+}
+    }
+    if(orng>0){
+        return -1;
+    }
+    return ans;
+    }
+}
